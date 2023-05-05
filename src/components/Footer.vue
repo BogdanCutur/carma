@@ -8,9 +8,9 @@
             <ul class="bigUl">
                 <li>
                     <ul class="smallUl">
-                        <li><h1>Rent a car in Bucharest Otopeni Airport</h1></li>
-                        <li><p>To make your flight to Romania a relaxed one, we are waiting at the Arrivals Terminal of the Henri Coanda Otopeni Bucharest Airport (OTP) with the car that you rented from us. NON STOP.</p></li>
-                        <li><p>Direction: Beautiful Romania</p></li>
+                        <li><h1>Rent a car with Carma</h1></li>
+                        <li><p>Every journey is a couple of clicks away</p></li>
+                        <li><p>Direction: Anywhere in the world</p></li>
                     </ul>
                 </li>
 
@@ -27,7 +27,7 @@
 
                 <li>
                     <ul class="smallUl">
-                        <li><h1>Rent a car Otopeni Bucharest Advantages</h1></li>
+                        <li><h1>Carma Advantages</h1></li>
                         <li><p>All taxes are included</p></li>
                         <li><p>Free car pickup & delivery</p></li>
                         <li><p>Free car replacement</p></li>
@@ -40,7 +40,7 @@
             </ul>
         </div>
         <div class="orangeDiv">
-            <p>Rent a Car Airport Otopeni Bucuresti 2019</p>
+            <p>Carma Ltd. 2023</p>
         </div>
     </footer>
 </template>
@@ -48,7 +48,6 @@
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
     footer{
-        position: fixed;
         bottom: 0;
         width: 100%;
     }

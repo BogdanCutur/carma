@@ -15,7 +15,7 @@
       </li>
       <li>
         <font-awesome-icon icon="fa-solid fa-envelope" inverse/>
-        <a href="#">contact@otopeni.ro</a>
+        <a href="#">contact@carma.com</a>
       </li>
       <li>
         <font-awesome-icon icon="fa-regular fa-calendar-check" inverse/>
