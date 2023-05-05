@@ -6,11 +6,25 @@ import CarListing from './components/CarListing.vue';
 </script>
 
 <template>
-  <Header/>
-  <CarListing/>
-  <Footer/>
+  <div id="app-container">
+    <Header/>
+    <router-view class="main-content"/>
+    <Footer/>
+  </div>
 </template>
 
-<style scoped>
-  
+<style>
+  :root {
+    --theme-color: rgb(16, 98, 206);
+  }
+
+  #app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .main-content {
+    flex-grow: 1;
+  }
 </style>

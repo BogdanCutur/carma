@@ -29,17 +29,16 @@
                     <ul class="smallUl">
                         <li><h1>Carma Advantages</h1></li>
                         <li><p>All taxes are included</p></li>
-                        <li><p>Free car pickup & delivery</p></li>
-                        <li><p>Free car replacement</p></li>
                         <li><p>24/7 Assistance</p></li>
-                        <li><p>Unlimited kilometers</p></li>
-                        <li><p>Free car wash</p></li>
+                        <li><p>Transparent Review System</p></li>
+                        <li><p>Flexible Pricing</p></li>
+                        <li><p>Most Varied Selection</p></li>
                     </ul>
                 </li>
                 
             </ul>
         </div>
-        <div class="orangeDiv">
+        <div class="themeDiv">
             <p>Carma Ltd. 2023</p>
         </div>
     </footer>
@@ -52,15 +51,15 @@
         width: 100%;
     }
 
-    .orangeDiv{
+    .themeDiv{
         color: white;
-        background-color: rgb(252, 120, 6);
-        width: 100%;
+        background-color: var(--theme-color);
+        width: auto;
         height: 25px;
         padding: 10px;
     }
 
-    .orangeDiv p{
+    .themeDiv p{
         max-width: 1300px;
         margin-left: auto;
         margin-right: auto;

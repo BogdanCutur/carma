@@ -15,6 +15,7 @@
         price: 25,
         deposit: 250.00,
         mileage: 'Unlimited',
+        features: ["Air Conditioning", "Bluetooth", "GPS", "Heated Seats"],
     },
     {
         id: 2,
@@ -28,6 +29,7 @@
         price: 40,
         deposit: 700.00,
         mileage: 'Unlimited',
+        features: ["Leather Seats", "Backup Camera", "Cruise Control"],
     },
     {
         id: 3,
@@ -41,6 +43,8 @@
         price: 12000,
         deposit: 4000000.00,
         mileage: 'Unlimited',
+        features: ["Parking Sensors", "Blind Spot Monitoring", "Remote Start", "Rear Defroster"],
+
     },
 ]);
 </script>

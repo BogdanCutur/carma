@@ -32,15 +32,20 @@
             <h2 class="features">FEATURES</h2>
             <hr>
             <ul>
-                <font-awesome-icon icon="fa-solid fa-plus" />
-                <p style="padding-left: 5px">8 Show Everything</p>
+                <font-awesome-icon icon="fa-solid fa-plus" @click="toggleDropdown" class="clickable"/>
+                <p style="padding-left: 5px" @click="toggleDropdown" class="clickable">{{car.features.length}} Show Everything</p>
             </ul>
+            <transition name="slide">
+                <div v-show="dropdownVisible" class="features-dropdown">
+                    <p v-for="feature in car.features">{{feature}}</p>
+                </div>
+            </transition>
             <hr>
             <ul class="flex">
                 <h2>PRICE FROM</h2>
                 <div>
                     <ul class="flex">
-                        <h4>{{car.price}} </h4>
+                        <h4>{{formatCurrency(car.price)}} </h4>
                         <font-awesome-icon icon="fa-solid fa-euro-sign" size="2x"/>
                     </ul>
                     
@@ -48,7 +53,7 @@
             </ul>
             <ul class="flex">
                 <h3>Deposit:</h3>
-                <p>{{car.deposit}}</p>
+                <p>{{formatCurrency(car.deposit)}} <font-awesome-icon icon="fa-solid fa-euro-sign" /></p>
             </ul>
             <ul class="flex">
                 <h3>Mileage</h3>
@@ -61,27 +66,40 @@
   </template>
   
   <script setup>
+    import { ref } from 'vue';
     // Importing necessary props for the SingleCar component
     const props = defineProps({
     car: Object,
-});
+    });
+
+    let dropdownVisible = ref(false);
+
+  // Function to toggle the visibility of the dropdown list
+    const toggleDropdown = () => {
+        dropdownVisible.value = !dropdownVisible.value;
+    };
+    function formatCurrency(value) {
+        return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+   
+    
   </script>
   
   <style scoped>
     @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
     .body{
         width: 400px;
-        height: auto;
+        height: min-content;
         padding-bottom: 20px;
         margin: 40px;
         box-shadow: 1px 2px #a7a7a7;
         background-color: rgb(252, 252, 252);
         position: relative;
-        min-height: calc(100vh - 100px);
     }
 
     img{
-        max-width: 60%;
+        width: 60%;
+        height: 120px;
         margin: 20px 80px;
     }
 
@@ -93,7 +111,7 @@
     h1{
         font-weight: 500;
         font-size: medium;
-        color: rgb(252, 120, 6);
+        color: var(--theme-color);
         font-family:'Montserrat', sans-serif;
         margin: 5px 20px;
     }
@@ -139,7 +157,7 @@
     }
 
     button{
-        background-color:  rgb(252, 120, 6);
+        background-color:  var(--theme-color);
         border-radius: 10px;
         width: 90%;
         height: 50px;
@@ -150,4 +168,25 @@
         border-color: rgb(211, 211, 211);
         margin-left: 20px;
     }
+
+    button:hover{
+        opacity: 80%;
+    }
+
+    .clickable, button {
+        cursor: pointer;
+    }
+
+    .features-dropdown {
+    padding: 10px 20px;
+    text-align: left;
+  }
+
+  .features-dropdown p {
+    margin: 5px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+  }
+
+
   </style>
