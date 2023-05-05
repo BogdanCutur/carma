@@ -7,17 +7,13 @@
     <ul class="blackNavList">
       <ul>
         <li>
-          <font-awesome-icon icon="fa-solid fa-phone" inverse/>
-          <a href="#">+0722 555 060</a>
-        </li>
-        <li>
-          <font-awesome-icon icon="fa-solid fa-envelope" inverse/>
-          <a href="#">contact@carma.com</a>
-        </li>
-        <li>
-          <font-awesome-icon icon="fa-regular fa-calendar-check" inverse/>
-          <a href="#" class="whiteA">NON STOP</a>
-        </li>
+          <ul>
+            <li><router-link to="/" class="greyA">Home</router-link></li>
+            <li><router-link to="/car-listing" class="greyA">Our Selection</router-link></li>
+            <li><a href="#" class="greyA">Extras List</a></li>
+            <li><a href="#" class="greyA">About Us</a></li>
+          </ul>
+       </li>
         <li>
           <font-awesome-icon icon="fa-solid fa-language" inverse/>
           <a href="#">EN</a>
@@ -26,31 +22,12 @@
       </ul>
       <ul>
         <li class="auth-buttons">
-          <a href="#" class="sign-in">Sign In</a>
+          <router-link to="/log-in" class="sign-in">Log In</router-link>
           <a href="#" class="sign-up">Sign Up</a>
         </li>
       </ul>
     </ul>
   </nav>
-
-
-  <nav class="secondNav">
-    <ul class="greyNavList">
-      <li>
-        <img src="https://cdn.pixabay.com/photo/2016/01/17/21/38/bmw-1145611_960_720.png" alt="">
-      </li>
-      <li>
-        <ul>
-          <li><router-link to="/" class="greyA">Home</router-link></li>
-          <li><router-link to="/car-listing" class="greyA">Our Cars</router-link></li>
-          <li><a href="#" class="greyA">Extras List</a></li>
-          <li><a href="#" class="greyA">About Us</a></li>
-        </ul>
-      </li>
-      
-    </ul>
-  </nav>
-
 
 </template>
 
@@ -64,10 +41,6 @@
 
   a:hover{
     color: gainsboro;
-  }
-
-  .whiteA{
-    color: white;
   }
 
   .greyA{
@@ -138,13 +111,6 @@
     height: auto;
   }
 
-  .greyNavList{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 1300px;
-    padding-top: 76px;
-  }
   .blackNavList{
     display: flex;
     align-items: center;
@@ -152,10 +118,4 @@
     width: 1300px;
   }
 
-  .secondNav{
-    display: flex;
-    justify-content: center;
-    box-shadow: 1px 2px #a7a7a7;
-    background-color: rgb(252, 252, 252);
-  }
 </style>

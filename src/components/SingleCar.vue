@@ -59,7 +59,7 @@
                 <h3>Mileage</h3>
                 <p>{{car.mileage}}</p>
             </ul>
-                <button>Rent</button>
+                <button>Choose</button>
             
         </container>
     </div>

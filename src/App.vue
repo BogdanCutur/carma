@@ -26,5 +26,6 @@ import CarListing from './components/CarListing.vue';
 
   .main-content {
     flex-grow: 1;
+    margin-top: 76px;
   }
 </style>

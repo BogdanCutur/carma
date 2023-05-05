@@ -46,22 +46,74 @@
         features: ["Parking Sensors", "Blind Spot Monitoring", "Remote Start", "Rear Defroster"],
 
     },
+    {
+        id: 4,
+        title: 'BMW 3 Series E90 2.5L',
+        imgSrc: "https://info.fcpeuro.com/hubfs/Images/Landing%20pages/BMW/BMW%20E90/Header/E90-Header.jpg",
+        class: 'Economy',
+        gearbox: 'Manual',
+        maxPassengers: 5,
+        fuelType: 'Gasoline',
+        fuelEconomy: '8l/100km',
+        price: 25,
+        deposit: 250.00,
+        mileage: 'Unlimited',
+        features: ["Air Conditioning", "Bluetooth", "GPS", "Heated Seats"],
+    },
 ]);
 </script>
 
-<template>
-    <div class="car-listings-container">
-    <SingleCar 
-    v-for="car in cars"
-    :key="car.id"
-    :car="car" />
-  </div>
-</template>
+<template class="background">
+    <div class="background-wrapper">
+      <div class="filters-bar">
+        <h1>Filters</h1>
+      </div>
+      <div class="car-listings-container">
+        <SingleCar 
+          v-for="car in cars"
+          :key="car.id"
+          :car="car" />
+      </div>
+    </div>
+  </template>
+  
+  <style scoped>
 
-<style scoped>
-    .car-listings-container {
+  .background-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .background-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 700px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://cdn.centraljersey.com/wp-content/uploads/sites/26/2023/01/2022-Mazda-3-Sedan.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+  }
+  
+  .filters-bar {
+    width: 50%;
+    margin-top: 76px;
+    height: 250px;
+    background-color: white;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .car-listings-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    background-color: transparent;
+    padding-top: 50px;
   }
-</style>
+  </style>
+  
