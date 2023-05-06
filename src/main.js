@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import { useAuthStore } from './store/auth';
 
 import App from './App.vue'
 import router from './router'
@@ -23,7 +24,12 @@ library.add(faChartColumn, faGaugeHigh, faPeopleGroup, faGears, faPlus, faEuroSi
 
 const app = createApp(App)
 
-app.use(createPinia())
-app.use(router)
+const pinia = createPinia();
+app.use(pinia);
+app.use(router);
+
+// Get the store instance
+const authStore = useAuthStore(pinia);
 
 app.component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+

@@ -1,5 +1,36 @@
-<script setup>
-  
+<script>
+  import { useAuthStore } from '../store/auth';
+  import { getAuth, signOut } from 'firebase/auth';
+
+
+  export default {
+    computed: {
+      user() {
+        return useAuthStore().user;
+      },
+    },
+    data() {
+      return {
+        dropdownVisible: false,
+      };
+    },
+    methods: {
+      toggleDropdown() {
+        this.dropdownVisible = !this.dropdownVisible;
+      },
+      async logOut() {
+        try {
+          const auth = getAuth();
+          await signOut(auth);
+          useAuthStore().setUser(null);
+          this.$router.push('/');
+        } catch (error) {
+          console.error('Error logging out:', error);
+          alert('Error logging out: ' + error.message);
+        }
+      },
+    },
+  };
 </script>
 
 <template>
@@ -10,8 +41,8 @@
           <ul>
             <li><router-link to="/" class="greyA">Home</router-link></li>
             <li><router-link to="/car-listing" class="greyA">Our Selection</router-link></li>
-            <li><a href="#" class="greyA">Extras List</a></li>
             <li><a href="#" class="greyA">About Us</a></li>
+            <li class="greyA" v-if="user">My Vehicles</li>
           </ul>
        </li>
         <li>
@@ -21,9 +52,16 @@
         </li>
       </ul>
       <ul>
-        <li class="auth-buttons">
+        <li class="auth-buttons" v-if="!user">
           <router-link to="/log-in" class="sign-in">Log In</router-link>
-          <a href="#" class="sign-up">Sign Up</a>
+          <router-link to="/sign-up" class="sign-up">Sign Up</router-link>
+        </li>
+        <li v-else @click="toggleDropdown" class="user-dropdown">
+          Hello, {{ user.firstName }}
+          <ul v-if="dropdownVisible" class="dropdown-menu">
+            <li class="black">My Account</li>
+            <li @click="logOut" class="black">Log Out</li>
+          </ul>
         </li>
       </ul>
     </ul>
@@ -116,6 +154,49 @@
     align-items: center;
     justify-content: space-between;
     width: 1300px;
+  }
+
+  .user-dropdown {
+    position: relative;
+    cursor: pointer;
+    color: white;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    font-size: large;
+  }
+
+  .user-dropdown:hover{
+    color: var(--theme-color);
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    display: block;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  }
+
+  .dropdown-menu li {
+    padding: 3px 20px;
+    white-space: nowrap;
+  }
+
+  .dropdown-menu li:hover {
+    background-color: #f5f5f5;
+  }
+
+  .black{
+    color: black;
   }
 
 </style>

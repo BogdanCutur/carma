@@ -4,6 +4,7 @@
       <div class="login-container">
         <h2>Login</h2>
         <form @submit.prevent="submitForm">
+          
           <div class="input-group">
             <label for="email">Email:</label>
             <input type="email" id="email" v-model="email" required />
@@ -14,28 +15,77 @@
           </div>
           <button type="submit">Login</button>
         </form>
+        <router-link to="/sign-up" class="log-in">Not a user? Sign up.</router-link>
       </div>
     </div>
   </template>
   
   <script>
-  export default {
-    data() {
-      return {
-        email: "",
-        password: "",
-      };
-    },
-    methods: {
-      submitForm() {
-        console.log("Email:", this.email, "Password:", this.password);
-        // Handle form submission, e.g., authentication, navigation, etc.
+    import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+    import { initializeApp } from "firebase/app";
+    import { useAuthStore } from '../store/auth';
+    import { getDatabase, ref, get } from "firebase/database";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdBRho0rLWwJ9Q78vCi5ox5IxaaiuDmNE",
+      authDomain: "carma-7dce2.firebaseapp.com",
+      projectId: "carma-7dce2",
+      databaseURL: "https://carma-7dce2-default-rtdb.europe-west1.firebasedatabase.app/",
+      storageBucket: "carma-7dce2.appspot.com",
+      messagingSenderId: "299286293377",
+      appId: "1:299286293377:web:16ddae7d081a4a38a9d680",
+      measurementId: "G-0SM7W14R9W"
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+
+    export default {
+      data() {
+        return {
+          email: "",
+          password: ""
+        };
       },
-    },
-  };
+      methods: {
+        async submitForm() {
+          try {
+            const auth = getAuth(firebaseApp);
+            await signInWithEmailAndPassword(auth, this.email, this.password);
+
+            const database = getDatabase(firebaseApp);
+            const userId = auth.currentUser.uid;
+            const userSnapshot = await get(ref(database, "users/" + userId));
+            const userFirstName = userSnapshot.val().firstName;
+
+            const authStore = useAuthStore();
+            authStore.setUser({
+              uid: userId,
+              firstName: userFirstName,
+            });
+
+            this.$router.push("/"); // Navigate to the desired page after successful login
+          } catch (error) {
+            console.error("Error logging in:", error);
+            alert("Error logging in: " + error.message);
+          }
+        }
+      }
+    };
+
   </script>
   
   <style scoped>
+  .log-in{
+        text-decoration: none;
+        color: var(--theme-color);
+        padding-top: 25px;
+        padding-left: 20px;
+    }
+
+    form{
+        padding: 20px;
+    }
+
   .login-page {
   display: flex;
   flex-direction: column;
@@ -61,7 +111,7 @@
 .login-container {
   max-width: 400px;
   min-width: 280px;
-  padding: 100px 50px;
+  padding: 90px 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
 }
@@ -90,7 +140,7 @@
   button {
     width: 100%;
     padding: 8px;
-    background-color: #3498db;
+    background-color: var(--theme-color);
     color: white;
     font-weight: bold;
     border: none;
@@ -98,7 +148,7 @@
   }
   
   button:hover {
-    background-color: #2980b9;
+    background-color: var(--theme-color);
   }
   </style>
   
