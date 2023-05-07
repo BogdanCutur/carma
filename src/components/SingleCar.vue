@@ -90,8 +90,9 @@
     .body{
         width: 400px;
         height: min-content;
-        padding-bottom: 20px;
-        margin: 40px;
+        padding-bottom: 40px;
+        margin: 20px 40px;
+        margin-bottom: 60px;
         box-shadow: 1px 2px #a7a7a7;
         background-color: rgb(252, 252, 252);
         position: relative;
@@ -100,7 +101,9 @@
     img{
         width: 60%;
         height: 120px;
-        margin: 20px 80px;
+        margin: 80px;
+        margin-bottom: 0px;
+        margin-top: 40px; 
     }
 
     hr{
@@ -109,12 +112,14 @@
     }
 
     h1{
-        font-weight: 500;
-        font-size: medium;
+        font-weight: 700;
+        font-size: large;
         color: var(--theme-color);
         font-family:'Montserrat', sans-serif;
-        margin: 5px 20px;
+        text-align: center;
+        margin-bottom: 20px;
     }
+    
     h1:hover{
         text-decoration: underline;
     }

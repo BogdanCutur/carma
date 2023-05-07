@@ -27,7 +27,7 @@
 <template class="background">
     <div class="background-wrapper">
       <div class="filters-bar">
-        <h1>Filters</h1>
+        <h1 class="filters">Filters</h1>
       </div>
       <div class="car-listings-container">
         <SingleCar 
@@ -39,7 +39,11 @@
   </template>
   
   <style scoped>
-
+  .filters{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    padding: 20px;
+  }
   .background-wrapper {
     position: relative;
     overflow: hidden;
@@ -67,6 +71,7 @@
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
   }
   
   .car-listings-container {

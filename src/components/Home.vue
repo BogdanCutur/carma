@@ -30,6 +30,7 @@
       <div class="overlay-text-2">Anywhere in the world</div>
       <router-link to="/car-listing" class="overlay-button">Find Your Perfect Vehicle</router-link>
     </div>
+    <div class="performers">Top Performers</div>
     <div class="car-listings-container">
         <SingleCar 
           v-for="car in firstThreeCars"
@@ -39,7 +40,7 @@
 </template>
 
 <style scoped>
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 .car-listings-container {
   display: flex;
   flex-wrap: wrap;
@@ -56,6 +57,13 @@ img {
   width: 100%;
   height: auto;
 }
+
+.performers {
+  font-size: 40px;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  margin-top: 50px;
+}
   
 .image-container::before {
   content: "";
@@ -70,6 +78,7 @@ img {
   
 .overlay-text, .overlay-text-2, .overlay-button {
   position: absolute;
+  font-family: 'Montserrat', sans-serif;
   left: 50%;
   color: white;
   font-size: 48px;

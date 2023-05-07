@@ -45,13 +45,9 @@
             <li v-if="user"><router-link to="/user-cars" class="greyA">My Vehicles</router-link></li>
           </ul>
        </li>
-        <li>
-          <font-awesome-icon icon="fa-solid fa-language" inverse/>
-          <a href="#">EN</a>
-          <a href="#">RO</a>
-        </li>
       </ul>
       <ul>
+        <router-link to="/add-car" class="sign-in" v-if="user">Add Vehicle</router-link>
         <li class="auth-buttons" v-if="!user">
           <router-link to="/log-in" class="sign-in">Log In</router-link>
           <router-link to="/sign-up" class="sign-up">Sign Up</router-link>
@@ -64,7 +60,7 @@
           </ul>
         </li>
       </ul>
-      <router-link to="/add-car" class="sign-in" v-if="user">Add Vehicle</router-link>
+      
     </ul>
   </nav>
 
@@ -115,12 +111,15 @@
   text-decoration: none;
   border-radius: 5px;
   transition: all 0.3s;
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 15px;
 }
 
 .blackNav .sign-in {
   background-color: var(--theme-color);
   border-radius: 20px;
   color: white;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .blackNav .sign-up {
@@ -166,6 +165,7 @@
     font-weight: 500;
     font-family: 'Montserrat', sans-serif;
     font-size: large;
+    margin-left: 20px;
   }
 
   .user-dropdown:hover{

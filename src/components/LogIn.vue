@@ -2,7 +2,7 @@
     <div class="login-page">
       <div class="login-bg"></div>
       <div class="login-container">
-        <h2>Login</h2>
+        <h2>Log In</h2>
         <form @submit.prevent="submitForm">
           
           <div class="input-group">
@@ -13,7 +13,7 @@
             <label for="password">Password:</label>
             <input type="password" id="password" v-model="password" required />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit">Log in</button>
         </form>
         <router-link to="/sign-up" class="log-in">Not a user? Sign up.</router-link>
       </div>
@@ -61,19 +61,21 @@
 
   </script>
   
-  <style scoped>
-  .log-in{
-        text-decoration: none;
-        color: var(--theme-color);
-        padding-top: 25px;
-        padding-left: 20px;
-    }
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+.log-in{
+  text-decoration: none;
+  color: var(--theme-color);
+  padding-top: 25px;
+  padding-left: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
 
-    form{
-        padding: 20px;
-    }
+form{
+  padding: 20px;
+}
 
-  .login-page {
+.login-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -101,27 +103,33 @@
   padding: 90px 30px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
+  border-radius: 20px;
 }
   
   h2 {
     margin-top: 0;
     margin-bottom: 20px;
     text-align: center;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .input-group {
     margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
   }
   
   label {
     display: block;
     margin-bottom: 5px;
+    font-family: 'Montserrat', sans-serif;
   }
   
   input {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 5px;
   }
   
   button {
@@ -132,10 +140,12 @@
     font-weight: bold;
     border: none;
     cursor: pointer;
+    border-radius: 20px;
+    font-size: 18px;
   }
   
   button:hover {
-    background-color: var(--theme-color);
+    background-color: black;
   }
   </style>
   

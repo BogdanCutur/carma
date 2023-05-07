@@ -2,63 +2,65 @@
     <div class="login-page">
       <div class="login-bg"></div>
       <div class="login-container">
-        <h2>Add your vehicle</h2>
+        <h1>Add your vehicle</h1>
         <form @submit.prevent="submitForm">
-            <div>
+            <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" id="title" v-model="formData.title" required />
             </div>
-            <div>
+            <div class="form-group">
                 <label for="imgSrc">Image URL</label>
                 <input type="text" id="imgSrc" v-model="formData.imgSrc" required />
             </div>
-            <div>
+            <div class="form-group">
                 <label for="class">Class</label>
                 <select id="class" v-model="formData.class" required>
-                <option value="Economy">Economy</option>
-                <option value="Sports Car">Sports Car</option>
-                <option value="Luxury">Luxury</option>
-                <option value="SUV">SUV</option>
-                <option value="Van">Van</option>
+                    <option value="Economy">Economy</option>
+                    <option value="Sports Car">Sports Car</option>
+                    <option value="Luxury">Luxury</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Van">Van</option>
                 </select>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="gearbox">Gearbox</label>
                 <select id="gearbox" v-model="formData.gearbox" required>
-                <option value="Manual">Manual</option>
-                <option value="Automatic">Automatic</option>
+                    <option value="Manual">Manual</option>
+                    <option value="Automatic">Automatic</option>
                 </select>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="maxPassengers">Max Passengers</label>
                 <input type="number" id="maxPassengers" v-model="formData.maxPassengers" required />
             </div>
-            <div>
+            <div class="form-group">
                 <label for="fuelType">Fuel Type</label>
                 <select id="fuelType" v-model="formData.fuelType" required>
-                <option value="Gasoline">Gasoline</option>
-                <option value="Diesel">Diesel</option>
-                <option value="Electric">Electric</option>
+                    <option value="Gasoline">Gasoline</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Electric">Electric</option>
                 </select>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="fuelEconomy">Fuel Economy (L/100km)</label>
                 <input type="number" id="fuelEconomy" v-model="formData.fuelEconomy" required />
             </div>
-            <div>
+            <div class="form-group">
                 <label for="price">Price (€/day)</label>
                 <input type="number" id="price" v-model="formData.price" required />
             </div>
-            <div>
+            <div class="form-group">
                 <label for="deposit">Deposit (€)</label>
                 <input type="number" id="deposit" v-model="formData.deposit" required />
             </div>
-            <div>
+            <div class="form-group">
                 <label for="mileage">Mileage</label>
                 <input type="text" id="mileage" v-model="formData.mileage" required />
             </div>
             <div>
-            <label>Features</label>
+                <div class="features-title">
+                    <label>Features</label>
+                </div>
                 <div>
                     <div v-for="feature in availableFeatures" :key="feature">
                     <input
@@ -106,7 +108,7 @@ export default {
         mileage: '',
         features: [],
       },
-      availableFeatures: ["Air Conditioning", "Bluetooth", "GPS", "Heated Seats"],
+      availableFeatures: ["Air Conditioning", "Bluetooth", "Android Auto", "Heated Seats", "Xenon Lights", "Radio", "CD Player", "Turbocharger", "Sunroof", "Cooled Seats", "Autopilot"],
       nextId: 1,
     };
   },
@@ -144,13 +146,19 @@ export default {
 </script>
 
 <style scoped>
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+h1{
+    font-weight: 700;
+    font-size: 30px;
+    font-family:'Montserrat', sans-serif;
+    text-align: center;
+    margin-bottom: 20px;
+}
 .login-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 76px);
   position: relative;
 }
 
@@ -168,17 +176,19 @@ export default {
 }
 
 .login-container {
-  max-width: 400px;
-  min-width: 280px;
-  padding: 90px 30px;
+  max-width: 500px;
+  min-width: 400px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  border-radius: 20px;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f5f5f5;
@@ -186,9 +196,17 @@ form {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
 label {
-  font-weight: bold;
-  margin-top: 10px;
+  margin-top: 15px;
+  margin-right: 20px;
+  flex-shrink: 0; /* Prevents the label from shrinking */
+  width: 140px;
+  font-family:'Montserrat', sans-serif;
 }
 
 input,
@@ -196,11 +214,14 @@ select {
   margin-top: 5px;
   padding: 5px 10px;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 5px;
+  width: 140px; /* Set the width of the input and select elements */
+  font-family:'Montserrat', sans-serif;
+  box-sizing: border-box;
 }
 
-select {
-  width: 100%;
+option{
+    font-family:'Montserrat', sans-serif;
 }
 
 button[type="submit"] {
@@ -209,7 +230,7 @@ button[type="submit"] {
   background-color: var(--theme-color);
   color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
   text-transform: uppercase;
@@ -217,5 +238,18 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   background-color: black;
+}
+
+.features-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Add some margin to the top */
+}
+
+.features-title label {
+  font-size: 22px; /* Make the font size bigger */
+  margin-top: 0; /* Remove the top margin */
+  padding: 8px; /* Add some padding around the label */
 }
 </style>
