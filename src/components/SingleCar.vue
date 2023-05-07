@@ -27,7 +27,7 @@
             <ul>
                 <font-awesome-icon icon="fa-solid fa-chart-column" />
                 <p class="bold">Fuel Economy: </p>
-                <p>{{car.fuelEconomy}}</p>
+                <p>{{car.fuelEconomy}}l/100km</p>
             </ul>
             <h2 class="features">FEATURES</h2>
             <hr>

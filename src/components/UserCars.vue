@@ -1,34 +1,35 @@
 <script setup>
-  import SingleCar from './SingleCar.vue';
-  import { onMounted, ref } from 'vue';
-  import { collection, getDocs, query, orderBy } from 'firebase/firestore';
-  import { db } from '../firebase.js';
+    import SingleCar from './SingleCar.vue';
+    import { onMounted, ref } from 'vue';
+    import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
+    import { db } from '../firebase.js';
+    import { getAuth } from 'firebase/auth';
 
-  const cars = ref([]);
+    const cars = ref([]);
+    onMounted(async () => {
+        try {
+            const auth = getAuth();
+            const userId = auth.currentUser.uid;
 
-  onMounted(async () => {
-    try {
-      const carCollection = collection(db, 'cars');
-      const carQuery = query(carCollection, orderBy('title'));
-      const carSnapshot = await getDocs(carQuery);
+            const carCollection = collection(db, 'cars');
+            const carQuery = query(
+                carCollection,
+                where('userId', '==', userId)
+            );
+            const carSnapshot = await getDocs(carQuery);
 
-      carSnapshot.forEach((doc) => {
-        cars.value.push({ id: doc.id, ...doc.data() });
-      });
-    } catch (error) {
-      console.error('Error fetching cars:', error);
-      alert('Error fetching cars: ' + error.message);
-    }
-  });
-
-    
+            carSnapshot.forEach((doc) => {
+            cars.value.push({ id: doc.id, ...doc.data() });
+            });
+        } catch (error) {
+            console.error('Error fetching cars:', error);
+            alert('Error fetching cars: ' + error.message);
+        }
+    });
 </script>
 
 <template class="background">
     <div class="background-wrapper">
-      <div class="filters-bar">
-        <h1>Filters</h1>
-      </div>
       <div class="car-listings-container">
         <SingleCar 
           v-for="car in cars"

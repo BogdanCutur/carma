@@ -42,7 +42,7 @@
             <li><router-link to="/" class="greyA">Home</router-link></li>
             <li><router-link to="/car-listing" class="greyA">Our Selection</router-link></li>
             <li><a href="#" class="greyA">About Us</a></li>
-            <li class="greyA" v-if="user">My Vehicles</li>
+            <li v-if="user"><router-link to="/user-cars" class="greyA">My Vehicles</router-link></li>
           </ul>
        </li>
         <li>
@@ -64,6 +64,7 @@
           </ul>
         </li>
       </ul>
+      <router-link to="/add-car" class="sign-in" v-if="user">Add Vehicle</router-link>
     </ul>
   </nav>
 
@@ -117,12 +118,14 @@
 }
 
 .blackNav .sign-in {
-  background-color: var(--theme-color); /* Replace with your theme color */
+  background-color: var(--theme-color);
+  border-radius: 20px;
   color: white;
 }
 
 .blackNav .sign-up {
   background-color: white;
+  border-radius: 20px;
   color: black;
 }
 
