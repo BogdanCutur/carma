@@ -15,7 +15,7 @@ import CarListing from './components/CarListing.vue';
 
 <style>
   :root {
-    --theme-color: rgb(16, 98, 206);
+    --theme-color: rgb(228, 118, 16);
   }
 
   #app-container {
