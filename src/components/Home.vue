@@ -26,9 +26,11 @@
 <template>
     <div class="image-container">
       <img src="https://www.bugatti.com/fileadmin/_processed_/sei/p1/se-image-d37f5243f6ae21dcfb1fbf28dfe261f5.jpg" alt="">
-      <div class="overlay-text">THE PERFECT DRIVING EXPERIENCE</div>
-      <div class="overlay-text-2">Anywhere in the world</div>
-      <router-link to="/car-listing" class="overlay-button">Find Your Perfect Vehicle</router-link>
+      <div class="overlay-content">
+        <div class="overlay-text">THE PERFECT DRIVING EXPERIENCE</div>
+        <div class="overlay-text-2">Anywhere in the world</div>
+        <router-link to="/car-listing" class="overlay-button">Find Your Perfect Vehicle</router-link>
+      </div>
     </div>
     <div class="performers">Top Performers</div>
     <div class="car-listings-container">
@@ -76,39 +78,40 @@ img {
   z-index: 1;
 }
   
-.overlay-text, .overlay-text-2, .overlay-button {
+.overlay-content {
   position: absolute;
-  font-family: 'Montserrat', sans-serif;
-  left: 50%;
-  color: white;
-  font-size: 48px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   z-index: 2;
 }
 
-.overlay-text {
-  top: 40%; /* Adjust the value to position the first text line vertically */
-  transform: translateX(-50%);
-}
-
-.overlay-text-2 {
-  top: 50%; /* Adjust the value to position the second text line vertically */
-  transform: translateX(-50%);
+.overlay-text, .overlay-text-2 {
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  font-size: 48px;
+  margin-bottom: 10px;
 }
 
 .overlay-button {
-  top: 63%; /* Adjust the value to position the second text line vertically */
-  transform: translateX(-50%);
   background-color: var(--theme-color);
   text-decoration: none;
+  color: white;
+  margin-top: 25px;
   padding: 13px 25px;
   border-radius: 20px;
   transition: all 0.3s;
-  font-size: 24px
+  font-size: 24px;
 }
 
-  .overlay-button:hover{
-    background-color: black;
-    cursor: pointer;
-  }
+.overlay-button:hover {
+  background-color: black;
+  cursor: pointer;
+}
   </style>
   

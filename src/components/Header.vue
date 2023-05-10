@@ -8,6 +8,13 @@
       user() {
         return useAuthStore().user;
       },
+      profilePictureUrl() {
+        if (this.user && this.user.profilePicture !== '') {
+          return this.user.profilePicture;
+        } else {
+          return 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png';
+        }
+      },
     },
     data() {
       return {
@@ -41,7 +48,6 @@
           <ul>
             <li><router-link to="/" class="greyA">Home</router-link></li>
             <li><router-link to="/car-listing" class="greyA">Our Selection</router-link></li>
-            <li><a href="#" class="greyA">About Us</a></li>
             <li v-if="user"><router-link to="/user-cars" class="greyA">My Vehicles</router-link></li>
           </ul>
        </li>
@@ -52,19 +58,32 @@
           <router-link to="/log-in" class="sign-in">Log In</router-link>
           <router-link to="/sign-up" class="sign-up">Sign Up</router-link>
         </li>
+
         <li v-else @click="toggleDropdown" class="user-dropdown">
-          Hello, {{ user.firstName }}
-          <ul v-if="dropdownVisible" class="dropdown-menu">
-            <li class="black">My Account</li>
-            <li @click="logOut" class="black">Log Out</li>
-          </ul>
+          <div class="user-dropdown-header">
+            <div class="helloMessage">Hello, {{ user.firstName }}</div>
+            <img :src="profilePictureUrl" alt="Profile Picture" class="profile-picture" />
+          </div>
+          
+          <div class="user-dropdown-container">
+            <div v-if="dropdownVisible" class="user-menu">
+              <div class="user-info">
+                <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                <p>{{ user.email }}</p>
+                <p>Balance: {{ user.balance }}</p>
+              </div>
+              <button @click="logOut" class="logout-button">Log Out</button>
+            </div>
+          </div>
+          
         </li>
+        
       </ul>
       
     </ul>
   </nav>
-
 </template>
+
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
@@ -160,7 +179,6 @@
 
   .user-dropdown {
     position: relative;
-    cursor: pointer;
     color: white;
     font-weight: 500;
     font-family: 'Montserrat', sans-serif;
@@ -168,9 +186,6 @@
     margin-left: 20px;
   }
 
-  .user-dropdown:hover{
-    color: var(--theme-color);
-  }
 
   .dropdown-menu {
     position: absolute;
@@ -201,5 +216,60 @@
   .black{
     color: black;
   }
+  .profile-picture {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+
+.user-menu-container {
+  position: relative;
+}
+
+.user-menu {
+  position: absolute;
+  top: calc(100% + 20px);
+  right: 0;
+  z-index: 100;
+  min-width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: black;
+}
+
+.logout-button {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  background-color: var(--theme-color);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logout-button:hover {
+  opacity: 0.8;
+}
+
+.helloMessage:hover{
+  color: var(--theme-color);
+}
+
+.user-dropdown-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 
 </style>

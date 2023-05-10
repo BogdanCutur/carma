@@ -20,46 +20,43 @@
     </div>
   </template>
   
-  <script>
-    import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-    import { useAuthStore } from '../store/auth';
-    import { getDatabase, ref, get } from "firebase/database";
-    import { firebaseApp } from "../firebase.js";
+<script>
+  import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+  import { useAuthStore } from '../store/auth';
+  import { firebaseApp } from "../firebase.js";
+  import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-    export default {
-      data() {
-        return {
-          email: "",
-          password: ""
-        };
-      },
-      methods: {
-        async submitForm() {
-          try {
-            const auth = getAuth(firebaseApp);
-            await signInWithEmailAndPassword(auth, this.email, this.password);
+  export default {
+    data() {
+      return {
+        email: "",
+        password: ""
+      };
+    },
+    methods: {
+      async submitForm() {
+        try {
+          const auth = getAuth(firebaseApp);
+          await signInWithEmailAndPassword(auth, this.email, this.password);
 
-            const database = getDatabase(firebaseApp);
-            const userId = auth.currentUser.uid;
-            const userSnapshot = await get(ref(database, "users/" + userId));
-            const userFirstName = userSnapshot.val().firstName;
+          const userId = auth.currentUser.uid;
 
-            const authStore = useAuthStore();
-            authStore.setUser({
-              uid: userId,
-              firstName: userFirstName,
-            });
+          const authStore = useAuthStore();
+          const db = getFirestore(firebaseApp);
+          const userRef = doc(db, 'users', userId);
+          const userDoc = await getDoc(userRef);
+          const userDetails = userDoc.data();
+          authStore.setUser({...userDetails});
 
-            this.$router.push("/"); // Navigate to the desired page after successful login
-          } catch (error) {
-            console.error("Error logging in:", error);
-            alert("Error logging in: " + error.message);
-          }
+          this.$router.push("/"); // Navigate to the desired page after successful login
+        } catch (error) {
+          console.error("Error logging in:", error);
+          alert("Error logging in: " + error.message);
         }
       }
-    };
-
-  </script>
+    }
+  };
+</script>
   
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");

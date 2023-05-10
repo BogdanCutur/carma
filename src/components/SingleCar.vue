@@ -4,6 +4,20 @@
         <container>
             <h1>{{car.title}}</h1>
             <hr>
+            <div class="rating">
+                <template v-for="i in 5">
+                    <font-awesome-icon v-if="i <= fullStars" icon="fa-solid fa-star" class="full-star" :key="'full-' + i" />
+                    <font-awesome-icon v-else icon="fa-regular fa-star" class="hollow-star" :key="'hollow-' + i" />
+                </template>
+            </div>
+            <div class="reviews" v-if="car.reviews.length == 1">{{ car.reviews.length }} Review</div>
+            <div class="reviews" v-else>{{ car.reviews.length }} Reviews</div>
+            <hr>
+            <ul>
+                <font-awesome-icon icon="fa-brands fa-whatsapp" />
+                <p class="bold">Owner: </p>
+                <p>{{car.userFirstName}}</p>
+            </ul>
             <ul>
                 <font-awesome-icon icon="fa-solid fa-car" />
                 <p class="bold">Class: </p>
@@ -59,7 +73,12 @@
                 <h3>Mileage</h3>
                 <p>{{car.mileage}}</p>
             </ul>
-                <button>Choose</button>
+            <router-link
+                :to="{ name: 'CarDetails', params: { id: car.id }}"
+                class="choose-button"
+                >
+            Choose
+            </router-link>
             
         </container>
     </div>
@@ -67,6 +86,18 @@
   
   <script setup>
     import { ref } from 'vue';
+    import { computed } from 'vue';
+
+    const averageRating = computed(() => {
+        if (props.car.reviews.length === 0) return 0;
+
+        const sum = props.car.reviews.reduce((a, b) => a + b);
+        return Math.round(sum / (props.car.reviews.length * 2));
+    });
+
+    const fullStars = computed(() => averageRating.value);
+    const hollowStars = computed(() => 5 - averageRating.value);
+
     // Importing necessary props for the SingleCar component
     const props = defineProps({
     car: Object,
@@ -82,7 +113,6 @@
         return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
    
-    
   </script>
   
   <style scoped>
@@ -161,22 +191,27 @@
         padding-right: 5px;
     }
 
-    button{
-        background-color:  var(--theme-color);
-        border-radius: 10px;
-        width: 90%;
-        height: 50px;
-        font-family: 'Montserrat', sans-serif;
-        color: white;
-        font-weight: 600;
-        font-size: 20px;
-        border-color: rgb(211, 211, 211);
-        margin-left: 20px;
-    }
+    .choose-button {
+  display: inline-block;
+  background-color: var(--theme-color);
+  border-radius: 10px;
+  width: 90%;
+  height: 50px;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  border-color: rgb(211, 211, 211);
+  margin-left: 20px;
+  text-decoration: none;
+  text-align: center;
+  line-height: 50px;
+}
 
-    button:hover{
-        opacity: 80%;
-    }
+.choose-button:hover {
+  opacity: 80%;
+}
+
 
     .clickable, button {
         cursor: pointer;
@@ -192,6 +227,23 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
   }
+
+  .rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.full-star, .hollow-star {
+  color: var(--theme-color);
+  margin-right: 3px;
+}
+
+.reviews{
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+
+}
 
 
   </style>

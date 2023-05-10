@@ -95,7 +95,6 @@ export default {
   data() {
     return {
       formData: {
-        id: null,
         title: '',
         imgSrc: '',
         class: '',
@@ -107,6 +106,8 @@ export default {
         deposit: '',
         mileage: '',
         features: [],
+        reviews: [],
+        userFirstName: '',
       },
       availableFeatures: ["Air Conditioning", "Bluetooth", "Android Auto", "Heated Seats", "Xenon Lights", "Radio", "CD Player", "Turbocharger", "Sunroof", "Cooled Seats", "Autopilot"],
       nextId: 1,
@@ -114,9 +115,7 @@ export default {
   },
   methods: {
     async submitForm() {
-        this.formData.id = this.nextId;
-        this.nextId += 1;
-        const carWithUserId = { ...this.formData, userId: this.user.uid };
+        const carWithUserId = { ...this.formData, userId: this.user.uid, userFirstName: this.user.firstName };
         try{
             const docRef = await addDoc(collection(db, "cars"), carWithUserId);
             console.log("Car saved with ID: ", docRef.id);

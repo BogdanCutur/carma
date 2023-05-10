@@ -31,6 +31,7 @@
     import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
     import { getDatabase, ref, set } from "firebase/database";
     import { firebaseApp } from "../firebase.js";
+    import { saveUser } from '../user.js';
     
     export default {
         data() {
@@ -54,7 +55,14 @@
                     lastName: this.lastName,
                     email: this.email
                 });
-        
+                const user = {
+                  uid: userId,
+                  email: this.email,
+                  firstName: this.firstName,
+                  lastName: this.lastName,
+                };
+
+                await saveUser(user);
                 this.$nextTick(() => {
                     this.$router.push("/log-in");
                 });
@@ -65,6 +73,7 @@
             }
         }
     };
+    
   </script>
   
     
