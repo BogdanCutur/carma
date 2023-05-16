@@ -13,7 +13,7 @@
             <div class="reviews" v-if="car.reviews.length == 1">{{ car.reviews.length }} Review</div>
             <div class="reviews" v-else>{{ car.reviews.length }} Reviews</div>
             <hr>
-            <ul>
+            <ul v-if="!isCarOwner">
                 <font-awesome-icon icon="fa-brands fa-whatsapp" />
                 <p class="bold">Owner: </p>
                 <p>{{car.userFirstName}}</p>
@@ -73,12 +73,27 @@
                 <h3>Mileage</h3>
                 <p>{{car.mileage}}</p>
             </ul>
-            <router-link
+            <router-link v-if="!userLoggedIn"
+                to="/log-in"
+                class="choose-button"
+                >
+            Choose
+            </router-link>
+
+            <router-link v-else-if="!isCarOwner"
                 :to="{ name: 'CarDetails', params: { id: car.id }}"
                 class="choose-button"
                 >
             Choose
             </router-link>
+
+            <router-link v-else
+                :to="{ name: 'CarDetails', params: { id: car.id }}"
+                class="choose-button"
+                >
+            Modify
+            </router-link>
+            <p v-if="isCarOwner" style="margin-left: 60px;">(Doesn't point where it should yet)</p>
             
         </container>
     </div>
@@ -87,7 +102,8 @@
   <script setup>
     import { ref } from 'vue';
     import { computed } from 'vue';
-
+    import { useAuthStore } from '../store/auth';
+    
     const averageRating = computed(() => {
         if (props.car.reviews.length === 0) return 0;
 
@@ -96,12 +112,18 @@
     });
 
     const fullStars = computed(() => averageRating.value);
-    const hollowStars = computed(() => 5 - averageRating.value);
 
     // Importing necessary props for the SingleCar component
     const props = defineProps({
-    car: Object,
+        car: Object,
     });
+
+    const authStore = useAuthStore();
+    const userId = authStore.user ? authStore.user.uid : null;
+
+    let isCarOwner = computed(() => userId && props.car.userId === userId);
+
+    let userLoggedIn = computed(() => userId != null)
 
     let dropdownVisible = ref(false);
 
@@ -112,6 +134,7 @@
     function formatCurrency(value) {
         return value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
+
    
   </script>
   

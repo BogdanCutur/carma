@@ -1,7 +1,7 @@
 <script>
   import { useAuthStore } from '../store/auth';
   import { getAuth, signOut } from 'firebase/auth';
-
+  import { doc, updateDoc, getFirestore } from 'firebase/firestore';
 
   export default {
     computed: {
@@ -15,15 +15,51 @@
           return 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png';
         }
       },
+      userRating(){
+        if(!this.user) return 0;
+        if (this.user.userReviews.length === 0) return 0;
+
+        const sum = this.user.userReviews?.reduce((a, b) => a + b, 0);
+        return Math.round(sum / (this.user.userReviews.length * 2));
+      },
     },
     data() {
       return {
         dropdownVisible: false,
+        addMoney: false,
+        changeProfilePic: false,
+        amountToAdd: 0,
+        pictureURL: '',
       };
     },
     methods: {
       toggleDropdown() {
         this.dropdownVisible = !this.dropdownVisible;
+        if (this.dropdownVisible) {
+          this.$nextTick(() => {
+            // Delay the addition of the event listener
+            setTimeout(() => {
+              window.addEventListener('click', this.hideDropdownIfClickedOutside);
+            }, 0);
+          });
+        } else {
+          window.removeEventListener('click', this.hideDropdownIfClickedOutside);
+        }
+      },
+      hideDropdownIfClickedOutside(event) {
+        const userMenuElement = this.$refs.userMenu;
+        if (userMenuElement && !userMenuElement.contains(event.target)) {
+          this.dropdownVisible = false;
+          window.removeEventListener('click', this.hideDropdownIfClickedOutside);
+        }
+      },
+      toggleMoney() {
+        this.addMoney = !this.addMoney;
+        this.changeProfilePic = false;
+      },
+      toggleProfilePicture() {
+        this.changeProfilePic = !this.changeProfilePic;
+        this.addMoney = false;
       },
       async logOut() {
         try {
@@ -34,6 +70,36 @@
         } catch (error) {
           console.error('Error logging out:', error);
           alert('Error logging out: ' + error.message);
+        }
+      },
+      async confirmPayment() {
+        if (this.amountToAdd > 0) {
+          const db = getFirestore();
+          const userRef = doc(db, 'users', this.user.uid);
+          await updateDoc(userRef, {
+            balance: this.user.balance + this.amountToAdd
+          });
+          this.toggleMoney();
+          this.amountToAdd = 0;
+
+          await useAuthStore().refreshUser();
+          this.componentKey++;
+
+        } else {
+          alert('Please enter a valid amount.');
+        }
+      },
+      async updateProfilePicture() {
+        if (this.pictureURL !== '') {
+          const db = getFirestore();
+          const userRef = doc(db, 'users', this.user.uid);
+          await updateDoc(userRef, {
+            profilePicture: this.pictureURL
+          });
+          this.toggleProfilePicture();
+          this.pictureURL = '';
+        } else {
+          alert('Please enter a valid URL.');
         }
       },
     },
@@ -64,13 +130,29 @@
             <div class="helloMessage">Hello, {{ user.firstName }}</div>
             <img :src="profilePictureUrl" alt="Profile Picture" class="profile-picture" />
           </div>
-          
           <div class="user-dropdown-container">
-            <div v-if="dropdownVisible" class="user-menu">
+            <div v-if="dropdownVisible" class="user-menu" ref="userMenu">
+              <img :src="profilePictureUrl" alt="Profile Picture" class="profile-large"/>
+              <div class="rating">
+                <template v-for="i in 5">
+                    <font-awesome-icon v-if="i <= userRating" icon="fa-solid fa-star" class="full-star" :key="'full-' + i" />
+                    <font-awesome-icon v-else icon="fa-regular fa-star" class="hollow-star" :key="'hollow-' + i" />
+                </template>
+            </div>
+            <div class="reviews" v-if="user.userReviews.length == 1">{{ user.userReviews.length }} Review</div>
+            <div class="reviews" v-else>{{ user.userReviews.length }} Reviews</div>
               <div class="user-info">
-                <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                <ul class="flex">
+                  <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+                  <button class="profile-button" @click="toggleProfilePicture">Change Profile Picture</button>
+                </ul>
                 <p>{{ user.email }}</p>
-                <p>Balance: {{ user.balance }}</p>
+                <ul class="flex">
+                  <p>Balance: {{ user.balance }} <font-awesome-icon icon="fa-solid fa-euro-sign" /> </p>
+                  <button class="profile-button" @click="toggleMoney">Add Money</button>
+                </ul>
+                <p>Total Sales Amount: {{ user.totalSales }} <font-awesome-icon icon="fa-solid fa-euro-sign" /> </p>
+                <p>Total Purchases Amount: {{ user.totalPurchases }} <font-awesome-icon icon="fa-solid fa-euro-sign" /> </p>
               </div>
               <button @click="logOut" class="logout-button">Log Out</button>
             </div>
@@ -82,6 +164,45 @@
       
     </ul>
   </nav>
+  <div v-if="addMoney" id="payment-modal" class="modal" @click="toggleMoney">
+    <div class="modal-content" @click.stop>
+      <h2>Payment Information</h2>
+      <form class="form-column" @submit.prevent="confirmPayment">
+        <div class="form-group">
+          <label for="cardNumber">Card Number</label>
+          <input type="text" id="cardNumber" name="cardNumber">
+        </div>
+        <div class="form-group">
+          <label for="expiryDate">Expiry Date</label>
+          <input type="text" id="expiryDate" name="expiryDate">
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" name="cvv">
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" name="amount" v-model="amountToAdd">
+        </div>
+        <button type="submit" class="logout-button">Confirm Payment</button>
+        <p>(This is a mock-up form, do not use real credit card information)</p>
+      </form>
+    </div>
+  </div>
+
+  <div v-if="changeProfilePic" id="payment-modal" class="modal" @click="toggleProfilePicture">
+    <div class="modal-content" @click.stop>
+      <h2>Change Profile Picture</h2>
+      <form class="form-column" @submit.prevent="updateProfilePicture">
+        <div class="form-group">
+          <label for="pictureURL">Picture URL</label>
+          <input type="text" id="pictureURL" name="pictureURL" v-model="pictureURL">
+        </div>
+        <button type="submit" class="logout-button">Confirm Change</button>
+      </form>
+    </div>
+  </div>
+
 </template>
 
 
@@ -232,10 +353,12 @@
 
 .user-menu {
   position: absolute;
+  max-height: 70vh;
+  overflow-y: auto;
   top: calc(100% + 20px);
   right: 0;
   z-index: 100;
-  min-width: 300px;
+  min-width: 330px;
   padding: 20px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -245,20 +368,45 @@
   flex-direction: column;
   justify-content: space-between;
   color: black;
+  text-align: center;
+}
+
+.user-menu p{
+  font-size: 15px;
 }
 
 .logout-button {
   display: inline-block;
   padding: 10px 20px;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 20px;
   background-color: var(--theme-color);
   color: white;
   cursor: pointer;
   transition: all 0.3s;
+  font-size: large;
+  box-shadow: none;
+  border: none;
+  margin-top: 20px;
 }
 
 .logout-button:hover {
+  opacity: 0.8;
+}
+
+.profile-button{
+  color: white;
+  background-color: var(--theme-color);
+  cursor: pointer;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 12px;
+  margin-left: 20px;
+  box-shadow: none;
+  border: none;
+}
+
+.profile-button:hover{
   opacity: 0.8;
 }
 
@@ -270,6 +418,74 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+.flex{
+  display: flex;
+  align-items: center;
+}
+
+.rating {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.full-star, .hollow-star {
+  color: var(--theme-color);
+  margin-right: 3px;
+}
+
+.reviews{
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.profile-large{
+  align-self: center;
+}
+
+.modal {
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 400px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  max-width: 250px;
 }
 
 </style>

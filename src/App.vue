@@ -13,6 +13,10 @@ import Footer from './components/Footer.vue'
 </template>
 
 <style>
+  body{
+    font-family: 'Montserrat', sans-serif;
+  }
+
   :root {
     --theme-color: rgb(228, 118, 16);
   }
