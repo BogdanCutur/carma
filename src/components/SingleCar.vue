@@ -87,13 +87,13 @@
             Choose
             </router-link>
 
-            <router-link v-else
+            <!-- <router-link v-else
                 :to="{ name: 'CarDetails', params: { id: car.id }}"
                 class="choose-button"
                 >
             Modify
             </router-link>
-            <p v-if="isCarOwner" style="margin-left: 60px;">(Doesn't point where it should yet)</p>
+            <p v-if="isCarOwner" style="margin-left: 60px;">(Doesn't point where it should yet)</p> -->
             
         </container>
     </div>

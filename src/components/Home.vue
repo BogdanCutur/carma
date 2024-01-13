@@ -25,7 +25,7 @@
 
 <template>
     <div class="image-container">
-      <img src="https://www.bugatti.com/fileadmin/_processed_/sei/p1/se-image-d37f5243f6ae21dcfb1fbf28dfe261f5.jpg" alt="">
+      <img src="https://car-images.bauersecure.com/wp-images/4176/bugatti_101.jpg" alt="">
       <div class="overlay-content">
         <div class="overlay-text">THE PERFECT DRIVING EXPERIENCE</div>
         <div class="overlay-text-2">Anywhere in the world</div>

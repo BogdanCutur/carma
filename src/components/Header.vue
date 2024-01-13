@@ -6,6 +6,7 @@
   export default {
     computed: {
       user() {
+        console.log(useAuthStore().user);
         return useAuthStore().user;
       },
       profilePictureUrl() {
@@ -81,8 +82,8 @@
           });
           this.toggleMoney();
           this.amountToAdd = 0;
-
-          await useAuthStore().refreshUser();
+          const authStore = useAuthStore();
+          await authStore.refreshUser(this.user.uid);
           this.componentKey++;
 
         } else {

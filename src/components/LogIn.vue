@@ -4,7 +4,7 @@
       <div class="login-container">
         <h2>Log In</h2>
         <form @submit.prevent="submitForm">
-          
+
           <div class="input-group">
             <label for="email">Email:</label>
             <input type="email" id="email" v-model="email" required />

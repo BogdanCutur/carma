@@ -14,32 +14,40 @@
   });
 
   const fetchCars = async () => {
-        try {
-            let carQuery = collection(db, 'cars');
+    try {
+      let carQuery = collection(db, 'cars');
 
-            if (filters.maxPrice) {
-                carQuery = query(carQuery, where('price', '<=', filters.maxPrice));
-            }
+      if (filters.maxPrice) {
+        carQuery = query(carQuery, where('price', '<=', filters.maxPrice));
+      }
 
-            if (filters.minSeats) {
-                carQuery = query(carQuery, where('seats', '>=', filters.minSeats));
-            }
+      const carSnapshot = await getDocs(carQuery);
 
-            if (filters.class) {
-                carQuery = query(carQuery, where('class', '==', filters.class));
-            }
+      let fetchedCars = carSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-            if (filters.gearbox) {
-                carQuery = query(carQuery, where('gearbox', '==', filters.gearbox));
-            }
+      console.log(fetchedCars);
 
-            const carSnapshot = await getDocs(carQuery);
+      if (filters.minSeats) {
+        fetchedCars = fetchedCars.filter(car => car.maxPassengers >= filters.minSeats);
+      }
 
-            cars.value = carSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        } catch (error) {
-            console.error('Error fetching cars:', error);
-            alert('Error fetching cars: ' + error.message);
-          }
+      if (filters.class) {
+        fetchedCars = fetchedCars.filter(car => car.class == filters.class);
+      }
+
+      if (filters.gearbox) {
+        fetchedCars = fetchedCars.filter(car => car.gearbox == filters.gearbox);
+      }
+
+      console.log(fetchedCars);
+
+      // Continue filtering for other fields...
+
+      cars.value = fetchedCars;
+    } catch (error) {
+      console.error('Error fetching cars:', error);
+      alert('Error fetching cars: ' + error.message);
+    }
   };
 
   const applyFilters = () => {
@@ -84,7 +92,6 @@
                 </select>
             </div>
             <button class="apply-button" type="submit">Apply Filters</button>
-            <p>(Not working perfectly)</p>
         </form>
     </div>
 
