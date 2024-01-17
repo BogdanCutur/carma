@@ -43,7 +43,7 @@
             </div>
             <div class="form-group">
                 <label for="fuelEconomy">Fuel Economy (L/100km)</label>
-                <input type="number" id="fuelEconomy" v-model="formData.fuelEconomy" required />
+                <input type="number" step="0.1" id="fuelEconomy" v-model="formData.fuelEconomy" required />
             </div>
             <div class="form-group">
                 <label for="price">Price (€/day)</label>

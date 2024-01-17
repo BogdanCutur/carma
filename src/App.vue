@@ -7,7 +7,7 @@ import Footer from './components/Footer.vue';
 import { firebaseApp } from "./firebase.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
-import { useAuthStore } from './store/auth'; // Adjust the path to your store
+import { useAuthStore } from './store/auth';
 
 const router = useRouter();
 const authStore = useAuthStore();
